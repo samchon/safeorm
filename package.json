@@ -4,7 +4,9 @@
   "description": "Ultimate Safe ORM for the TypeScript",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node lib/test"
+    "test": "node lib/test",
+    "build": "rimraf lib && tsc",
+    "dev": "rimraf lib && tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
   "devDependencies": {
     "@types/node": "^17.0.13",
     "@types/uuid": "^8.3.4",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.5"
   },

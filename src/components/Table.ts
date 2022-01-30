@@ -35,7 +35,6 @@ export namespace Table
 {
     export interface IProps<Properties extends object>
     {
-        component: "Table";
         name?: string;
         properties: Properties;
     }
