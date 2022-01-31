@@ -5,13 +5,13 @@ import { Column } from "./Column";
 import { OmitNever } from "../../typings/OmitNever";
 
 export function PrimaryColumn<Type extends ColumnType>
-    (type: Type): IPrimaryColumn.IBase<Type>;
+    (type: Type): IColumn.InvertType<IPrimaryColumn.IBase<Type>>;
 
 export function PrimaryColumn<Type extends ColumnType, Options extends PrimaryColumn.IOptions<Type>>
     (
         type: Type, 
         options: Options
-    ): IPrimaryColumn.IBase<Type> & Options;
+    ): IColumn.InvertType<IPrimaryColumn.IBase<Type> & Options>;
 
 export function PrimaryColumn<Type extends ColumnType>
     (
@@ -19,7 +19,7 @@ export function PrimaryColumn<Type extends ColumnType>
         options?: any
     )
 {
-    return Column(type, false,
+    return Column(type, 
     {
         ...(options || {}),
         primary: true,

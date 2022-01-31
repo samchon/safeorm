@@ -18,17 +18,18 @@ export type IColumn<
 
 export namespace IColumn
 {
-    export type InvertType<Props extends IColumn<any, any>> 
-        = Props extends IColumn<infer Type, infer Nullable>
-            ? CapsuleNullable<ColumnType.InvertType<Type>, Nullable>
-            : never;
-
     export interface IBase<
             Type extends ColumnType,
-            Nullable extends true|false>
+            Nullable extends true|false = false>
     {
         component: "Column";
         type: Type;
-        nullable: Nullable;
+        nullable?: Nullable;
     }
+    
+    export type InvertType<Metadata extends IBase<any, any>> 
+        = Metadata extends IColumn<infer Type, any>
+            ? CapsuleNullable<ColumnType.InvertType<Type>, Metadata>
+                & { __metadata?: Metadata }
+            : never;
 }

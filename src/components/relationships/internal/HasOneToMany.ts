@@ -1,37 +1,25 @@
+import { Creator } from "../../../typings/Creator";
 import { Belongs } from "../Belongs";
-import { Table } from "../../Table";
-import { SpecialFields } from "../../../typings/SpecialFields";
 
-export interface HasOneToMany<Target extends Table.Creator<any, any>>
+export interface HasOneToMany<Target extends object>
 {
-    get(): Promise<Table.Instance<Target>[]>;
-    set(value: Table.Instance<Target>[]): Promise<void>;
+    readonly component: "Relationship";
+    readonly type: "Has.OneToMany";
+
+    get(): Promise<Target[]>;
+    set(value: Target[]): Promise<void>;
 }
 
-export function HasOneToMany<Target extends Table.Creator<any, any>>
+export function HasOneToMany<Target extends object>
     (
-        target: () => Target,
-        inverse: (target: Table.IProps<Target>) => Belongs.ManyToOne<any, any>,
-        comparator?: (x: Table.Instance<Target>, y: Table.Instance<Target>) => number
-    ): HasOneToMany.IProps<Target>
+        target: Creator.Getter<Target>,
+        inverse: (target: Target) => Belongs.ManyToOne<any, any>,
+        comparator?: (x: Target, y: Target) => number
+    ): HasOneToMany<Target>
 {
-    return {
-        component: "Relationship",
-        type: "Has.OneToMany",
-        target,
-        inverse,
-        comparator
-    };
+    return {} as any;
 }
 
 export namespace HasOneToMany
 {
-    export interface IProps<Target extends Table.Creator<any, any>>
-    {
-        component: "Relationship";
-        type: "Has.OneToMany";
-        target: () => Target;
-        inverse: (target: Table.IProps<Target>) => Belongs.ManyToOne<any, any>;
-        comparator?: (x: Table.Instance<Target>, y: Table.Instance<Target>) => number;
-    }
 }

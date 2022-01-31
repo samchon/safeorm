@@ -1,43 +1,34 @@
 import { Belongs } from "../Belongs";
 import { CapsuleNullable } from "../../../typings/CapsuleNullable";
-import { Table } from "../../Table";
+import { Creator } from "../../../typings/Creator";
 
 export interface HasOneToOne<
-        Target extends Table.Creator<any, any>, 
-        Nullable extends true|false>
+        Target extends object, 
+        Options extends HasOneToOne.IOptions<any>>
 {
-    get(): Promise<CapsuleNullable<Table.Instance<Target>, Nullable>>;
-    set(value: CapsuleNullable<Table.Instance<Target>, Nullable>): Promise<void>;
+    readonly component: "Relationship";
+    readonly type: "Has.OneToOne";
+
+    get(): Promise<CapsuleNullable<Target, Options>>;
+    set(value: CapsuleNullable<Target, Options>): Promise<void>;
 }
 
 export function HasOneToOne<
-        Target extends Table.Creator<any, any>, 
-        Nullable extends true|false>
+        Target extends object, 
+        Options extends HasOneToOne.IOptions<any>>
     (
-        target: () => Target,
-        inverse: (target: Table.Instance<Target>) => Belongs.OneToOne<any, any>,
-        nullable: Nullable
-    ): HasOneToOne.IProps<Target, Nullable>
+        target: Creator.Getter<Target>,
+        inverse: (target: Target) => Belongs.OneToOne<any, any>,
+        options?: Options
+    ): HasOneToOne<Target, Options>
 {
-    return {
-        component: "Relationship",
-        type: "Has.OneToOne",
-        target,
-        inverse,
-        nullable
-    };
+    return {} as any;
 }
 
 export namespace HasOneToOne
 {
-    export interface IProps<
-            Target extends Table.Creator<any, any>,
-            Nullable extends true|false>
+    export interface IOptions<Nullable extends true|false>
     {
-        component: "Relationship";
-        type: "Has.OneToOne";
-        target: () => Target;
-        inverse: (target: Table.Instance<Target>) => Belongs.OneToOne<any, any>;
-        nullable: Nullable;
+        nullable?: Nullable;
     }
 }

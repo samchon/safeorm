@@ -1,33 +1,29 @@
 import { CapsuleNullable } from "../../../typings/CapsuleNullable";
+import { Creator } from "../../../typings/Creator";
 import { RelationshipType } from "../../../typings/RelationshipType";
-import { Table } from "../../Table";
 
 export interface BelongsOneToOne<
-        Target extends Table.Creator<any, any>,
-        Nullable extends true|false>
+        Target extends object,
+        Options extends BelongsOneToOne.IOptions<any>>
 {
-    id: CapsuleNullable<RelationshipType.DeductPrimaryType<Target>, Nullable>;
-    get(): Promise<CapsuleNullable<Table.Instance<Target>, Nullable>>;
-    set(value: Promise<CapsuleNullable<Table.Instance<Target>, Nullable>>): Promise<void>;
+    readonly component: "Relationship";
+    readonly type: "Belongs.OneToOne";
+    readonly target: Creator.Getter<Target>;
+
+    id: CapsuleNullable<RelationshipType.DeductPrimaryType<Target>, Options>;
+    get(): Promise<CapsuleNullable<Target, Options>>;
+    set(value: Promise<CapsuleNullable<Target, Options>>): Promise<void>;
 }
 
 export function BelongsOneToOne<
-        Target extends Table.Creator<any, any>,
-        Nullable extends true|false>
+        Target extends object,
+        Options extends BelongsOneToOne.IOptions<any>>
     (
-        target: () => Target,
-        nullable: Nullable,
-        options?: BelongsOneToOne.IOptions<Nullable>
-    ): BelongsOneToOne.IProps<Target, Nullable>
+        target: Creator.Getter<Target>,
+        options?: Options
+    ): BelongsOneToOne<Target, Options>
 {
-    options = options || {};
-    return {
-        ...options,
-        component: "Relationship",
-        type: "Belongs.OneToOne",
-        target,
-        nullable,
-    };
+    return {} as any;
 }
 
 export namespace BelongsOneToOne
@@ -36,18 +32,8 @@ export namespace BelongsOneToOne
     {
         field?: string;
         name?: string;
+        nullable?: Nullable;
         primary?: Nullable extends true ? never : boolean;
         unique?: boolean;
-    }
-
-    export interface IProps<
-            Target extends Table.Creator<any, any>,
-            Nullable extends true|false>
-        extends IOptions<Nullable>
-    {
-        component: "Relationship";
-        type: "Belongs.OneToOne";
-        target: () => Target;
-        nullable: Nullable;
     }
 }

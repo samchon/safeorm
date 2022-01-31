@@ -8,12 +8,15 @@ import { PrimaryColumn } from "./PrimaryColumn";
 import { DEFAULT } from "../DEFAULT";
 
 export function PrimaryGeneratedColumn<Type extends ColumnType.Generatable>
-    (type: Type): IPrimaryGeneratedColumn.IBase<Type>;
+    (type: Type): IColumn.InvertType<IPrimaryGeneratedColumn.IBase<Type>>;
 
 export function PrimaryGeneratedColumn<
         Type extends ColumnType.Generatable,
         Options extends PrimaryGeneratedColumn.IOptions<Type>>
-    (type: Type, options: Options): IPrimaryGeneratedColumn.IBase<Type> & Options;
+    (
+        type: Type, 
+        options: Options
+    ): IColumn.InvertType<IPrimaryGeneratedColumn.IBase<Type> & Options>;
 
 export function PrimaryGeneratedColumn<Type extends ColumnType.Generatable>
     (

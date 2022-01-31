@@ -4,7 +4,7 @@ import { OmitNever } from "../../typings/OmitNever";
 import { IColumn } from "../../structures/IColumn";
 
 export function CreateDateColumn<Type extends ColumnType.DateType>
-    (type: Type): CreateDateColumn.IBaseColumn<Type>;
+    (type: Type): IColumn.InvertType<CreateDateColumn.IBaseColumn<Type>>;
     
 export function CreateDateColumn<
         Type extends ColumnType.DateType,
@@ -12,12 +12,12 @@ export function CreateDateColumn<
     (
         type: Type,
         options: Options
-    ): Options & CreateDateColumn.IBaseColumn<Type>;
+    ): IColumn.InvertType<Options & CreateDateColumn.IBaseColumn<Type>>;
 
 export function CreateDateColumn<
         Type extends ColumnType.DateType,
         Options extends CreateDateColumn.IOptions<Type>>
-    (type: Type, options?: Options): Options & CreateDateColumn.IBaseColumn<Type>
+    (type: Type, options?: Options): any
 {
     const base: CreateDateColumn.IBaseColumn<Type> =
     {
@@ -29,7 +29,9 @@ export function CreateDateColumn<
     };
     options = options || {} as Options;
 
-    return { ...options, ...base };
+    return { 
+        __metadata: { ...options, ...base }
+    };
 }
 
 export namespace CreateDateColumn

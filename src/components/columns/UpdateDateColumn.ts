@@ -4,7 +4,7 @@ import { OmitNever } from "../../typings/OmitNever";
 import { IColumn } from "../../structures/IColumn";
 
 export function UpdateDateColumn<Type extends ColumnType.DateType>
-    (type: Type): UpdateDateColumn.IBaseColumn<Type>;
+    (type: Type): IColumn.InvertType<UpdateDateColumn.IBaseColumn<Type>>;
     
 export function UpdateDateColumn<
         Type extends ColumnType.DateType,
@@ -12,7 +12,7 @@ export function UpdateDateColumn<
     (
         type: Type,
         options: Options
-    ): Options & UpdateDateColumn.IBaseColumn<Type>;
+    ): IColumn.InvertType<Options & UpdateDateColumn.IBaseColumn<Type>>;
 
 export function UpdateDateColumn<
         Type extends ColumnType.DateType,
@@ -20,7 +20,7 @@ export function UpdateDateColumn<
     (
         type: Type, 
         options?: Options
-    ): Options & UpdateDateColumn.IBaseColumn<Type>
+    ): any
 {
     const base: UpdateDateColumn.IBaseColumn<Type> = {
         component: "Column",
@@ -31,7 +31,9 @@ export function UpdateDateColumn<
     };
     options = options || {} as Options;
     
-    return { ...options, ...base };
+    return { 
+        __metadata: { ...options, ...base }
+    };
 }
 
 export namespace UpdateDateColumn

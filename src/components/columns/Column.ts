@@ -2,31 +2,29 @@ import { IColumn } from "../../structures/IColumn";
 import { ColumnType } from "../../typings/ColumnType";
 import { OmitNever } from "../../typings/OmitNever";
 
-export function Column<Type extends ColumnType, Nullable extends true|false>
-    (type: Type, nullable: Nullable): Column.IBaseOption<Type, Nullable>;
+export function Column<Type extends ColumnType>
+    (type: Type): IColumn.InvertType<Column.IBaseOption<Type, false>>;
 
 export function Column<
         Type extends ColumnType,
-        Nullable extends true|false,
-        Options extends Column.IOptions<Type, Nullable>>
+        Options extends Column.IOptions<Type, any>>
     (
         type: Type, 
-        nullable: Nullable, 
         options: Options
-    ): Column.IBaseOption<Type, Nullable> & Options;
+    ): IColumn.InvertType<Column.IBaseOption<Type, any> & Options>;
 
 export function Column<
         Type extends ColumnType, 
-        Nullable extends true|false,
-        Options extends Column.IOptions<Type, Nullable>>
-    (type: Type, nullable: Nullable, options?: Options)
+        Options extends Column.IOptions<Type, any>>
+    (type: Type, options?: Options): any
 {
     options = (options || {}) as Options;
     return {
-        ...options,
-        component: "Column",
-        type,
-        nullable,
+        __metadata: {
+            ...options,
+            component: "Column",
+            type,
+        }
     };
 }
 
@@ -35,7 +33,7 @@ export namespace Column
     export type IOptions<
             Type extends ColumnType,
             Nullable extends true|false> 
-        = OmitNever<Omit<IColumn<Type, Nullable>, "component"|"type"|"nullable">>;
+        = OmitNever<Omit<IColumn<Type, Nullable>, "component"|"type">>;
 
     export interface IBaseOption<
             Type extends ColumnType,
@@ -43,6 +41,6 @@ export namespace Column
     {
         component: "Column";
         type: Type;
-        nullable: Nullable;
+        nullable?: Nullable;
     }
 }

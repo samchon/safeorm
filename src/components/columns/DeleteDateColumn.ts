@@ -4,7 +4,7 @@ import { OmitNever } from "../../typings/OmitNever";
 import { Column } from "./Column";
 
 export function DeleteDateColumn<Type extends ColumnType.DateType>
-    (type: Type): DeleteDateColumn.IBaseColumn<Type>;
+    (type: Type): IColumn.InvertType<DeleteDateColumn.IBaseColumn<Type>>;
 
 export function DeleteDateColumn<
         Type extends ColumnType.DateType,
@@ -12,7 +12,7 @@ export function DeleteDateColumn<
     (
         type: Type,
         options: Options
-    ): Options & DeleteDateColumn.IBaseColumn<Type>;
+    ): IColumn.InvertType<Options & DeleteDateColumn.IBaseColumn<Type>>;
 
 export function DeleteDateColumn<
         Type extends ColumnType.DateType,
@@ -20,7 +20,7 @@ export function DeleteDateColumn<
     (
         type: Type, 
         options?: Options
-    ): Options & DeleteDateColumn.IBaseColumn<Type>
+    ): any
 {
     const base: DeleteDateColumn.IBaseColumn<Type> = {
         component: "Column",
@@ -31,7 +31,9 @@ export function DeleteDateColumn<
     };
     options = options || {} as Options;
 
-    return { ...options, ...base };
+    return { 
+        __metadata: { ...options, ...base }
+    };
 }
 
 export namespace DeleteDateColumn

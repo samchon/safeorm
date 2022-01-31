@@ -1,59 +1,40 @@
+import { Creator } from "../../../typings/Creator";
 import { Belongs } from "../Belongs";
-import { Table } from "../../Table";
 
 export interface HasManyToMany<
-        Target extends Table.Creator<any, any>,
-        Router extends Table.Creator<any, any>>
+        Target extends object,
+        Router extends object>
 {
-    target(): Target;
-    router(): Router;
+    readonly component: "Relationship";
+    readonly type: "Has.ManyToMany";
+    readonly target: Creator.Getter<Target>;
+    readonly router: Creator.Getter<Router>;
 
-    get(): Promise<Table.Instance<Target>[]>;
-    set(value: Table.Instance<Target>[]): Promise<void>;
+    get(): Promise<Target>[];
+    set(value: Target[]): Promise<void>;
 }
 
 export function HasManyToMany<
-        Target extends Table.Creator<any, any>,
-        Router extends Table.Creator<any, any>>
+        Target extends object,
+        Router extends object>
     (
         target: () => Target,
         router: () => Router,
-        target_inverse: (router: Table.Instance<Router>) => Belongs.ManyToOne<Table.Instance<Target>, any>,
-        my_inverse: (router: Table.Instance<Router>) => Belongs.ManyToOne<any, any>,
+        target_inverse: (router: Router) => Belongs.ManyToOne<Target, any>,
+        my_inverse: (router: Router) => Belongs.ManyToOne<any, any>,
         comparator?: (x: HasManyToMany.ITuple<Target, Router>, router: HasManyToMany.ITuple<Target, Router>) => number
-    ): HasManyToMany.IProps<Target, Router>
+    ): HasManyToMany<Target, Router>
 {
-    return {
-        component: "Relationship",
-        type: "Has.ManyToMany",
-        target,
-        router,
-        target_inverse,
-        my_inverse,
-        comparator
-    };
+    return {} as any;
 }
 
 export namespace HasManyToMany
 {
-    export interface IProps<
-            Target extends Table.Creator<any, any>,
-            Router extends Table.Creator<any, any>>
-    {
-        component: "Relationship";
-        type: "Has.ManyToMany";
-        target: () => Target;
-        router: () => Router;
-        target_inverse: (router: Table.Instance<Router>) => Belongs.ManyToOne<Table.Instance<Target>, any>;
-        my_inverse: (router: Table.Instance<Router>) => Belongs.ManyToOne<any, any>;
-        comparator?: (x: ITuple<Target, Router>, y: ITuple<Target, Router>) => number;
-    }
-
     export interface ITuple<
-            Target extends Table.Creator<any, any>,
-            Router extends Table.Creator<any, any>>
+            Target extends object,
+            Router extends object>
     {
-        target: Table.Instance<Target>;
-        router: Table.Instance<Router>;
+        target: Creator.Getter<Target>;
+        router: Creator.Getter<Router>;
     }
 }
