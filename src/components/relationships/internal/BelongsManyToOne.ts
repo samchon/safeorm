@@ -9,6 +9,7 @@ export interface BelongsManyToOne<
     readonly component: "Relationship";
     readonly type: "Belongs.ManyToOne";
     readonly target: Creator.Getter<Target>;
+    readonly options: Options;
 
     id: CapsuleNullable<RelationshipType.DeductPrimaryType<Target>, Options>;
     get(): Promise<CapsuleNullable<Target, Options>>;
@@ -17,7 +18,8 @@ export interface BelongsManyToOne<
 
 export function BelongsManyToOne<
         Target extends object,
-        Options extends BelongsManyToOne.IOptions<any>>
+        Nullable extends boolean,
+        Options extends BelongsManyToOne.IOptions<Nullable>>
     (
         target: Creator.Getter<Target>,
         options?: Options
@@ -28,7 +30,7 @@ export function BelongsManyToOne<
 
 export namespace BelongsManyToOne
 {
-    export interface IOptions<Nullable extends true|false>
+    export interface IOptions<Nullable extends boolean = boolean>
     {
         field?: string;
         name?: string;

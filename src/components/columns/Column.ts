@@ -2,21 +2,14 @@ import { IColumn } from "../../structures/IColumn";
 import { ColumnType } from "../../typings/ColumnType";
 import { OmitNever } from "../../typings/OmitNever";
 
-export function Column<Type extends ColumnType>
-    (type: Type): IColumn.InvertType<Column.IBaseOption<Type, false>>;
-
-export function Column<
-        Type extends ColumnType,
-        Options extends Column.IOptions<Type, any>>
-    (
-        type: Type, 
-        options: Options
-    ): IColumn.InvertType<Column.IBaseOption<Type, any> & Options>;
-
 export function Column<
         Type extends ColumnType, 
-        Options extends Column.IOptions<Type, any>>
-    (type: Type, options?: Options): any
+        Nullable extends boolean,
+        Options extends Column.IOptions<Type, Nullable>>
+    (
+        type: Type, 
+        options?: Options
+    ): IColumn.InvertType<Column.IBaseOption<Type, Nullable> & Options>
 {
     options = (options || {}) as Options;
     return {
@@ -25,7 +18,7 @@ export function Column<
             component: "Column",
             type,
         }
-    };
+    } as any;
 }
 
 export namespace Column

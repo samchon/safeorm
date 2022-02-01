@@ -7,7 +7,9 @@ import { OmitNever } from "../../typings/OmitNever";
 export function PrimaryColumn<Type extends ColumnType>
     (type: Type): IColumn.InvertType<IPrimaryColumn.IBase<Type>>;
 
-export function PrimaryColumn<Type extends ColumnType, Options extends PrimaryColumn.IOptions<Type>>
+export function PrimaryColumn<
+        Type extends ColumnType, 
+        Options extends PrimaryColumn.IOptions<Type>>
     (
         type: Type, 
         options: Options

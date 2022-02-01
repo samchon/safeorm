@@ -26,7 +26,7 @@ export function DeleteDateColumn<
         component: "Column",
         symbol: "DeleteDateColumn",
         type,
-        nullable: true,
+        nullable: true as const,
         default: () => null
     };
     options = options || {} as Options;

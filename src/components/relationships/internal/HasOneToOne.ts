@@ -8,6 +8,7 @@ export interface HasOneToOne<
 {
     readonly component: "Relationship";
     readonly type: "Has.OneToOne";
+    readonly target: Creator.Getter<Target>;
 
     get(): Promise<CapsuleNullable<Target, Options>>;
     set(value: CapsuleNullable<Target, Options>): Promise<void>;

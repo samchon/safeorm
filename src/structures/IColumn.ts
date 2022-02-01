@@ -29,7 +29,6 @@ export namespace IColumn
     
     export type InvertType<Metadata extends IBase<any, any>> 
         = Metadata extends IColumn<infer Type, any>
-            ? CapsuleNullable<ColumnType.InvertType<Type>, Metadata>
-                & { __metadata?: Metadata }
+            ? CapsuleNullable<ColumnType.InvertType<Type> & { __metadata?: Metadata }, Metadata>
             : never;
 }

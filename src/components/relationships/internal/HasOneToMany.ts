@@ -1,10 +1,12 @@
 import { Creator } from "../../../typings/Creator";
+import { Table } from "../../Table";
 import { Belongs } from "../Belongs";
 
 export interface HasOneToMany<Target extends object>
 {
     readonly component: "Relationship";
     readonly type: "Has.OneToMany";
+    readonly target: Creator.Getter<Target>;
 
     get(): Promise<Target[]>;
     set(value: Target[]): Promise<void>;

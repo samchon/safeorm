@@ -4,7 +4,7 @@ import { RelationshipType } from "../../../typings/RelationshipType";
 
 export interface BelongsOneToOne<
         Target extends object,
-        Options extends BelongsOneToOne.IOptions<any>>
+        Options extends BelongsOneToOne.IOptions>
 {
     readonly component: "Relationship";
     readonly type: "Belongs.OneToOne";
@@ -17,7 +17,7 @@ export interface BelongsOneToOne<
 
 export function BelongsOneToOne<
         Target extends object,
-        Options extends BelongsOneToOne.IOptions<any>>
+        Options extends BelongsOneToOne.IOptions>
     (
         target: Creator.Getter<Target>,
         options?: Options
@@ -28,12 +28,12 @@ export function BelongsOneToOne<
 
 export namespace BelongsOneToOne
 {
-    export interface IOptions<Nullable extends true|false>
+    export interface IOptions
     {
         field?: string;
         name?: string;
-        nullable?: Nullable;
-        primary?: Nullable extends true ? never : boolean;
+        nullable?: boolean;
+        primary?: boolean;
         unique?: boolean;
     }
 }
