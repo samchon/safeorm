@@ -9,4 +9,4 @@ export class BbsArticleTag
     public readonly sequence = safe.Column("int");
 }
 safe.Unique(BbsArticleTag, ["article", "value"]);
-safe.Table(BbsArticleTag);
+safe.Entity(BbsArticleTag);

@@ -25,4 +25,4 @@ export class BbsGroup
         article => article.group
     );
 }
-safe.Table(BbsGroup);
+safe.Entity(BbsGroup);

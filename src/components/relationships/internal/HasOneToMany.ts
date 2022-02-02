@@ -1,5 +1,5 @@
 import { Creator } from "../../../typings/Creator";
-import { Table } from "../../Table";
+import { Entity } from "../../Entity";
 import { Belongs } from "../Belongs";
 
 export interface HasOneToMany<Target extends object>

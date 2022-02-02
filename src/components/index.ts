@@ -3,6 +3,6 @@ export * from "./relationships";
 
 export * from "./indexes/Index";
 export * from "./indexes/Unique";
-export * from "./Table";
+export * from "./Entity";
 
 export * from "./DEFAULT";

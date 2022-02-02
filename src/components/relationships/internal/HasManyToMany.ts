@@ -18,8 +18,8 @@ export function HasManyToMany<
         Target extends object,
         Router extends object>
     (
-        target: () => Target,
-        router: () => Router,
+        target: Creator.Getter<Target>,
+        router: Creator.Getter<Router>,
         target_inverse: (router: Router) => Belongs.ManyToOne<Target, any>,
         my_inverse: (router: Router) => Belongs.ManyToOne<any, any>,
         comparator?: (x: HasManyToMany.ITuple<Target, Router>, router: HasManyToMany.ITuple<Target, Router>) => number
@@ -34,7 +34,7 @@ export namespace HasManyToMany
             Target extends object,
             Router extends object>
     {
-        target: Creator.Getter<Target>;
-        router: Creator.Getter<Router>;
+        target: Target;
+        router: Router;
     }
 }

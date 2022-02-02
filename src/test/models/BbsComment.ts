@@ -10,4 +10,4 @@ export class BbsComment
     public readonly deleted_at = safe.DeleteDateColumn("datetime");
 }
 safe.Index(BbsComment, ["article", "created_at", "deleted_at"]);
-safe.Table(BbsComment);
+safe.Entity(BbsComment);
