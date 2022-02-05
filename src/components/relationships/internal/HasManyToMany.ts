@@ -10,7 +10,7 @@ export interface HasManyToMany<
     readonly target: Creator.Getter<Target>;
     readonly router: Creator.Getter<Router>;
 
-    get(): Promise<Target>[];
+    get(): Promise<Target[]>;
     set(value: Target[]): Promise<void>;
 }
 

@@ -20,47 +20,22 @@ The ultimate **Safe ORM** library for the TypeScript.
   - ~~API Documents: https://samchon.github.io/safeorm/api~~
   - Template Project: https://github.com/samchon/backend
 
-With **SafeORM**, you can define database and programmable type at the same time through the <font color="blue">TMP</font> (<font color="blue">Type Meta Programming</font>). Also, such type would be utilized in the whole **SafeORM** components level. Therefore, you can be helped by auto-completion with type hint when writing SQL query or planning App join.
-
-Furthermore, you don't need to worry about any type of mistake when writing SQL query or planning App join. Your mistake would be caught in the compilation level. Therefore, if you type a wrong word on the SQL query, it would be enhanced by IDE through the <font color="red"><u>red underline</u></font>.
-
-Unlike other ORM libraries who've to define DB and programmable type duplicatedly and cause <font color="red">critical runtime error</font> by not supporting the <font color="blue">TMP</font>, **SafeORM** supports those features through below components and they make the DB development to be much safer. Read below components and feel how <font color="blue">safe</font> it is.
-
-  - [Entity](#entity): Define DB and TypeScript type at the time with TMP
-  - [QueryBuilder](#querybuilder): Auto completion with type hint
-  - [AppJoinBuilder](#appjoinbuilder): Same grammer with QueryBuilder and lazy app joiner
-  - [JsonBuilder](#jsonselectbuilder): Automatic JSON type deduction with performance tuning
-  - [InsertCollection](#insertcollection): Massive insertion with performance tuning
-
-
-
 
 
 
 ## Demonstrations
-<!-- I'll demonstrate five principle components of **SafeORM**. 
+With **SafeORM**, you can define database and programmable type at the same time through the <font color="green">TMP</font> (<font color="green">Type Meta Programming</font>). Also, such type would be utilized in the whole **SafeORM** components level. Therefore, you can be helped by auto-completion with type hint when writing SQL query or planning App join.
 
-They will show you that how the safe and convenient **SafeORM** is.
+Furthermore, you don't need to worry about any type of mistake when writing SQL query or planning App join. Your mistake would be caught in the compilation level. Therefore, if you type a wrong word on the SQL query, it would be enhanced by IDE through the <font color="red"><u>red underline</u></font>.
 
-  - [Entity](#entity)
-    - Ultimate safe TMP (Type Meta Programming) for the ORM
-    - You can define DB and programmable type at the same time
-    - Your definition would be utilized in the whole **SafeORM** components.
-  - [QueryBuilder]($querybuilder)
-    - Error would be detected in the compilation level
-    - Auto completion would be provided
-    - Type hint would be supported
-  - [AppJoinBuilder](#appjoinbuilder)
-    - Same gramer with the QueryBuilder
-    - Helped by compiler and auto completion with type hints
-    - Even support the Lazy App Join with binding
-  - [JsonSelectBuilder](#jsonselectbuilder)
-    - Exact JSON type would be automatically deduced
-    - App Join would be automatically done
-    - The performance would be automatically tuned
-  - [InsertCollection](#insertcollection)
-    - Sequence of tables would be automatically sorted by analyzing dependencies
-    - The performance would be automatically tuned -->
+Unlike other ORM libraries who've to define DB and programmable type duplicatedly and cause <font color="red">critical runtime error</font> by not supporting the <font color="green">TMP</font>, **SafeORM** supports those features through below components and they make the DB development to be much safer. Read below components and feel how <font color="green">safe</font> it is.
+
+  - [Entity](#entity): Define DB and TypeScript type at the time with TMP
+  - [QueryBuilder](#querybuilder): Auto completion with type hint
+  - [AppJoinBuilder](#appjoinbuilder): Same grammer with QueryBuilder and lazy app joiner
+  - [bindAppJoin](#bindappjoin): Lazy app join binder
+  - [JsonBuilder](#jsonselectbuilder): Automatic JSON type deduction with performance tuning
+  - [InsertCollection](#insertcollection): Massive insertion with performance tuning
 
 ### Entity
 As you can see from the below example code, **SafeORM** supports the TMP (Type Meta Programming) ORM who can define database type and programmable type at the same time. When you define a column with database type, **SafeORM** would convert it to the programmable type automatically. 
@@ -148,7 +123,7 @@ When you've defined some [Entities](#entity), you can compose SQL query very eas
 
 Also, some mistakes like mis-written column name would be automatically detected in the compilation level. Therefore, you don't need to worry about any type of mistake when wrting the SQL query. All of the mistakes would be enhanced by IDE by the <font color="red"><u>red underline</u></font>. 
 
-Look at the below gif image and feel how strong it is. Other ORM libraries like *TypeORM* never can provide such beautiful <font color="blue">TMP</font> (<font color="blue">Type Meta Programming</font>). They may cause <font color="red">the critical runtime error</font> for the mis-writiten SQL query.
+Look at the below gif image and feel how strong it is. Other ORM libraries like *TypeORM* never can provide such beautiful <font color="green">TMP</font> (<font color="green">Type Meta Programming</font>). They may cause <font color="red">the critical runtime error</font> for the mis-writiten SQL query.
 
 ![Safe Query Builder](https://raw.githubusercontent.com/samchon/safe-typeorm/master/assets/demonstrations/safe-query-builder.gif)
 
@@ -252,6 +227,7 @@ export async function test_app_join_builder_initialize(): Promise<void>
 }
 ```
 
+### bindAppJoin
 If you want to perform the lazy app join instead of upper eager app joins, use the `bindAppJoin()` method instead. With the lazy app join binding, relationship accessors would never call the repeated `SELECT` query for the same type.
 
 Look at the below code, then you may understand what the lazy app join is. As you can see, below code called relationshiop accessor for only one instance `topArticle: BbsArticle`. However, another `BbsArticle` instances also performs the application level join at the same time and never calls the `SELECT` query again. It's the lazy app join.
@@ -286,11 +262,11 @@ export async function test_lazy_app_join(): Promise<void>
 ### JsonSelectBuilder
 ![Class Diagram](https://raw.githubusercontent.com/samchon/safe-typeorm/master/assets/designs/class-diagram.png)
 
-In the **SafeORM**, when you want to load DB records and convert them to a <font color="purple">JSON</font> data, you don't need to write any `SELECT` or `JOIN` query. You also do not need to consider any performance tuning. Just write down the `ORM -> JSON` conversion plan, then **SafeORM** will do everything.
+In the **SafeORM**, when you want to load DB records and convert them to a <font color="orange">JSON</font> data, you don't need to write any `SELECT` or `JOIN` query. You also do not need to consider any performance tuning. Just write down the `ORM -> JSON` conversion plan, then **SafeORM** will do everything.
 
-The `JsonSelectBuilder` is the class doing everything. It will analyze your <font color="purple">JSON</font> conversion plan, and compose the <font color="purple">JSON</font> conversion method automatically with the exact <font color="purple">JSON</font> type what you want. Furthermore, the `JsonSelectBuilder` finds the best (applicataion level) joining plan by itself.
+The `JsonSelectBuilder` is the class doing everything. It will analyze your <font color="orange">JSON</font> conversion plan, and compose the <font color="orange">JSON</font> conversion method automatically with the exact <font color="orange">JSON</font> type what you want. Furthermore, the `JsonSelectBuilder` finds the best (applicataion level) joining plan by itself.
 
-Below code is an example converting ORM model class instances to <font color="purple">JSON</font> data with the `JsonSelectBuilder`. As you can see, there's no special script in the below code, but only the conversion plan exists. As I've mentioned, `JsonSelectBuilder` will construct the exact <font color="purple">JSON</font> type by analyzing your conversion plan. Also, the performance tuning would be done automatically. 
+Below code is an example converting ORM model class instances to <font color="orange">JSON</font> data with the `JsonSelectBuilder`. As you can see, there's no special script in the below code, but only the conversion plan exists. As I've mentioned, `JsonSelectBuilder` will construct the exact <font color="orange">JSON</font> type by analyzing your conversion plan. Also, the performance tuning would be done automatically. 
 
 Therefore, just enjoy the `JsonSelectBuilder` without any worry.
 
