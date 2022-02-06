@@ -1,6 +1,6 @@
 {
   "name": "safeorm",
-  "version": "0.0.0-dev.20220206",
+  "version": "0.0.0-dev.20220207",
   "description": "Ultimate Safe ORM for the TypeScript",
   "main": "lib/index.js",
   "scripts": {

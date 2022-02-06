@@ -2,7 +2,7 @@
 ## Outline
 > Development of the `safeorm` has not been completed yet.
 >
-> Until the completion, only interfaces and test automation programs are provided. When the development has been completed, its 1st version `0.1.0` would be published. Before the completion, version of the `safeorm` would keep the `0.0.x`.
+> Until the completion, only interfaces and test automation programs are being provided. When the development has been completed, its 1st version `0.1.0` would be published. Before the completion, version of the `safeorm` would keep the `0.0.x`.
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/samchon/safeorm/blob/master/LICENSE)
 [![npm version](https://badge.fury.io/js/safeorm.svg)](https://www.npmjs.com/package/safeorm)
@@ -24,20 +24,22 @@ The ultimate **Safe ORM** library for the TypeScript.
 
 
 ## Demonstrations
-With **SafeORM**, you can define database and programmable type at the same time through the <font color="green">TMP</font> (<font color="green">Type Meta Programming</font>). Also, such type would be utilized in the whole **SafeORM** components level. Therefore, you can be helped by auto-completion with type hint when writing SQL query or planning App join.
+With the **SafeORM**, you can define database and programmable type at the same time through the <font color="green">TMP</font> (<font color="green">Type Meta Programming</font>). Also, such type would be utilized in the whole **SafeORM** components level. Therefore, you can be helped by auto-completion with type hint when writing SQL query or planning App join.
 
 Furthermore, you don't need to worry about any type of mistake when writing SQL query or planning App join. Your mistake would be caught in the compilation level. Therefore, if you type a wrong word on the SQL query, it would be enhanced by IDE through the <font color="red"><u>red underline</u></font>.
 
 Unlike other ORM libraries who've to define DB and programmable type duplicatedly and cause <font color="red">critical runtime error</font> by not supporting the <font color="green">TMP</font>, **SafeORM** supports those features through below components and they make the DB development to be much safer. Read below components and feel how <font color="green">safe</font> it is.
 
-  - [Entity](#entity): Define DB and TypeScript type at the time with TMP
+  - [Entity](#entity): Define DB and TypeScript type at the time by <font color="green">TMP</font>
   - [QueryBuilder](#querybuilder): Auto completion with type hint
-  - [AppJoinBuilder](#appjoinbuilder): Same grammer with QueryBuilder and lazy app joiner
-  - [bindAppJoin](#bindappjoin): Lazy app join binder
-  - [JsonBuilder](#jsonselectbuilder): Automatic JSON type deduction with performance tuning
-  - [InsertCollection](#insertcollection): Massive insertion with performance tuning
+  - [bindAppJoin](#bindappjoin): Lazy app join binder, extremely <font color="purple">easy</font> but powerful <font color="purple">performance</font>
+  - [AppJoinBuilder](#appjoinbuilder): Eager app join builder, same grammer with the [QueryBuilder](#querybuilder)
+  - [JsonBuilder](#jsonselectbuilder): <font color="orange">JSON</font> converter without any SQL query
+  - [InsertCollection](#insertcollection): Massive insertion without considering any dependency relationship
 
 ### Entity
+> Template Meta Programming
+
 As you can see from the below example code, **SafeORM** supports the TMP (Type Meta Programming) ORM who can define database type and programmable type at the same time. When you define a column with database type, **SafeORM** would convert it to the programmable type automatically. 
 
 Such automatic conversion even works for the relationship type. If you define a dependency relationship of the database, **SafeORM** converts it to the programmable relationship type, too. As you can see from the below, relationship functions like `Belongs.ManyToOne` and `Has.ManyToMany` define the database relationships and programmable accessors, at the same time.
@@ -119,6 +121,8 @@ safe.Table(BbsArticle); // BE TABLE
 ```
 
 ### QueryBuilder
+> Extremely safe with the TMP.
+
 When you've defined some [Entities](#entity), you can compose SQL query very easily and safely by this `QueryBuilder`. The `QueryBuilder` analyzes those [Entities](#entity) and supports the auto completion with type hint. 
 
 Also, some mistakes like mis-written column name would be automatically detected in the compilation level. Therefore, you don't need to worry about any type of mistake when wrting the SQL query. All of the mistakes would be enhanced by IDE by the <font color="red"><u>red underline</u></font>. 
@@ -162,16 +166,62 @@ export async function test_safe_query_builder(): Promise<void>
             BbsArticleContent.getColumn("AA.title", "answer_title"),
             BbsArticle.getColumn("AA.created_at", "answer_created_at"),
         ]);
-    stmt;
+}
+```
+
+### bindAppJoin
+> Extremely easy but powerful performance.
+
+The `bindAppJoin` is a function who binds an ORM object (or objects) to perform the lazy application level join. With the lazy app join binding, relationship accessors would never call the repeated `SELECT` query for the same type. The `SELECT` query would be occured only when same type of the relationship accessor has been called at fisrt.
+
+If that description is hard to understand, read the below code, then you may understand. As you can see from the below, the example code called relationshiop accessor for only one instance `topArticle: BbsArticle`. However, another `BbsArticle` instances also performs the application level join at the same time and never calls the `SELECT` query again. It's the lazy app join.
+
+Also, as you can see from the below description and benchmark result of the App join, the App join is much fater and consumes much fewer resources than the DB join query. Even implementation code of the App join is much easier than the DB join in this **SafeORM** library. Therefore, I say with condidence, "There's no reason to denying this `bindAppJoin` function".
+
+> The application level join means that joining related records are done not by the DB join query, but through the manual application code using the *HashMap* with their primary and foreign key values mapping.
+>
+> Comparing those DB join query and application level joining, the application level joining consumes much fewer resources and its elapsed time is also much shorter than the DB join query. Those differences grow up whenever the join relationship be more compliate.
+>
+>  - [stackoverflow/join-queries-vs-multiple-queries](https://stackoverflow.com/questions/1067016/join-queries-vs-multiple-queries)
+>
+> Type         | DB Join   | App Join  |
+> :------------|----------:|----------:|
+> Records      | 2,258,000 | 165       |
+> Elapsed Time | 8.07508   | 0.00262   |
+
+```typescript
+export async function test_lazy_app_join(): Promise<void>
+{
+    const group: BbsGroup = await BbsGroup.findOneOrFail();
+    safe.bindAppJoin(group);
+
+    const articleList: BbsArticle[] = await group.articles.get();
+    const topArticle: BbsArticle = articleList[0];
+
+    // APP-JOIN WOULD BE DONE
+    await topArticle.comments.get();
+    await topArticle.files.get();
+    await topArticle.tags.get();
+
+    // ANY SELECT QUERY WOULD BE OCCURED
+    await must_not_query_anything("bindAppJoin", async () =>
+    {
+        for (const article of articleList)
+        {
+            await article.comments.get();
+            await article.files.get();
+            await article.tags.get();
+        }
+    });
 }
 ```
 
 ### AppJoinBuilder
-With the `AppJoinBuilder` class, you can implement application level joining very easily. 
+With the `AppJoinBuilder` class, you can implement eager application level join. 
 
-Also, grammer of the `AppJoin!Builder` is exactly same with the `JoinQueryBuilder`. Therefore, you can swap `JoinQueryBuilder` and `AppJoinBuilder` very simply without any cost. Thus, you can just select one of them suitable for your case.
+Also, grammer of the `AppJoinBuilder` is exactly same with the `QueryBuilder`. Therefore, you can swap `QueryBuilder` and `AppJoinBuilder` very simply without any cost. Thus, you can just select one of them suitable for your case.
 
-![Safe Query Builder](https://raw.githubusercontent.com/samchon/safe-typeorm/master/assets/demonstrations/app-join-builder.gif)
+![AppJoinBuilder](https://raw.githubusercontent.com/samchon/safe-typeorm/master/assets/demonstrations/app-join-builder.gif)
 
 ```typescript
 export async function test_app_join_builder(): Promise<void>
@@ -227,40 +277,10 @@ export async function test_app_join_builder_initialize(): Promise<void>
 }
 ```
 
-### bindAppJoin
-If you want to perform the lazy app join instead of upper eager app joins, use the `bindAppJoin()` method instead. With the lazy app join binding, relationship accessors would never call the repeated `SELECT` query for the same type.
-
-Look at the below code, then you may understand what the lazy app join is. As you can see, below code called relationshiop accessor for only one instance `topArticle: BbsArticle`. However, another `BbsArticle` instances also performs the application level join at the same time and never calls the `SELECT` query again. It's the lazy app join.
-
-```typescript
-export async function test_lazy_app_join(): Promise<void>
-{
-    const group: BbsGroup = await BbsGroup.findOneOrFail();
-    safe.bindAppJoin(group);
-
-    const articleList: BbsArticle[] = await group.articles.get();
-    const topArticle: BbsArticle = articleList[0];
-
-    // APP-JOIN WOULD BE DONE
-    await topArticle.comments.get();
-    await topArticle.files.get();
-    await topArticle.tags.get();
-
-    // ANY SELECT QUERY WOULD BE OCCURED
-    await must_not_query_anything("bindAppJoin", async () =>
-    {
-        for (const article of articleList)
-        {
-            await article.comments.get();
-            await article.files.get();
-            await article.tags.get();
-        }
-    });
-}
-```
-
 ### JsonSelectBuilder
 ![Class Diagram](https://raw.githubusercontent.com/samchon/safe-typeorm/master/assets/designs/class-diagram.png)
+
+> JSON converter without any SQL query
 
 In the **SafeORM**, when you want to load DB records and convert them to a <font color="orange">JSON</font> data, you don't need to write any `SELECT` or `JOIN` query. You also do not need to consider any performance tuning. Just write down the `ORM -> JSON` conversion plan, then **SafeORM** will do everything.
 
@@ -305,6 +325,8 @@ export async function test_json_select_builder(models: BbsGroup[]): Promise<void
 ```
 
 ### InsertCollection
+> Massive insertion without considering any dependency relationship
+
 When you want to execute `INSERT` query for lots of records of plural tables, you've to consider dependency relationships. Also, you may construct extended SQL query manually by yourself, if you're interested in the performance tuning.
 
 However, with the `InsertCollection` class provided by this **SafeORM**, you don't need to consider any dependcy relationship. You also do not need to consider any performance tuning. The `InsertCollection` will analyze the dependency relationships and orders the insertion sequence automatically. Also, the `InsertCollection` utilizes the extended insertion query for the optimizing performance.
