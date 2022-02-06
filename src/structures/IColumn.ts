@@ -16,7 +16,7 @@ export type IColumn<
     index?: boolean;
 };
 
-export namespace IColumn
+export module IColumn
 {
     export interface IBase<
             Type extends ColumnType,

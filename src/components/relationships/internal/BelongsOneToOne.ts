@@ -26,7 +26,7 @@ export function BelongsOneToOne<
     return {} as any;
 }
 
-export namespace BelongsOneToOne
+export module BelongsOneToOne
 {
     export interface IOptions
     {

@@ -12,7 +12,7 @@ interface ICommand
     exclude?: string;
 }
 
-export namespace DynamicImportIterator
+export module DynamicImportIterator
 {
     export type Closure<Arguments extends any[]> = (...args: Arguments) => Promise<void>;
     type Module<Arguments extends any[]> = 

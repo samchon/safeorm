@@ -36,7 +36,7 @@ export function UpdateDateColumn<
     };
 }
 
-export namespace UpdateDateColumn
+export module UpdateDateColumn
 {
     export type IOptions<Type extends ColumnType.DateType>
         = OmitNever<Omit<Column.IOptions<Type, false>, "default">>;

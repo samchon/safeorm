@@ -28,7 +28,7 @@ export function HasManyToMany<
     return {} as any;
 }
 
-export namespace HasManyToMany
+export module HasManyToMany
 {
     export interface ITuple<
             Target extends object,

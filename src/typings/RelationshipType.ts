@@ -12,7 +12,7 @@ export type RelationshipType<Target extends object>
     | Has.OneToMany<Target>
     | Has.ManyToMany<Target, any>;
 
-export namespace RelationshipType
+export module RelationshipType
 {
     export type DeductPrimaryType<Target extends object>
         = Target[SpecialFields<Target, IColumn.InvertType<IPrimaryColumn<any>>>] extends IColumn.InvertType<IPrimaryColumn<infer Type>>

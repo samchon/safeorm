@@ -28,7 +28,7 @@ export function BelongsManyToOne<
     return {} as any;
 }
 
-export namespace BelongsManyToOne
+export module BelongsManyToOne
 {
     export interface IOptions<Nullable extends boolean = boolean>
     {

@@ -1,5 +1,5 @@
-import { ColumnType } from ".";
-import { Belongs } from "..";
+import { ColumnType } from "./ColumnType";
+import { Belongs } from "../components/relationships/Belongs";
 import { IColumn } from "../structures/IColumn";
 import { CapsuleNullable } from "./CapsuleNullable";
 import { OmitNever } from "./OmitNever";

@@ -8,7 +8,7 @@ export type ColumnType
     | ColumnType.DateType
     | ColumnType.SpatialType;
 
-export namespace ColumnType
+export module ColumnType
 {
     export type BooleanType = "bool";
     export type NumberType = "short" | "int" | "double" | "decimal";

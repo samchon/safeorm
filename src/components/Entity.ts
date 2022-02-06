@@ -9,7 +9,7 @@ export function Entity<T extends object>
     (target: Creator<Entity.Enable<T>>): void
 {   
 }
-export namespace Entity
+export module Entity
 {
     export type Enable<T extends object> 
         = SpecialFields<T, { __metadata?: IPrimaryColumn<any> }> extends never

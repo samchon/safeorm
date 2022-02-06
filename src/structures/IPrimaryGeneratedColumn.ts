@@ -7,7 +7,7 @@ export interface IPrimaryGenetedColumn<Type extends ColumnType.Generatable>
 {
 
 }
-export namespace IPrimaryGeneratedColumn
+export module IPrimaryGeneratedColumn
 {
     export interface IBase<Type extends ColumnType.Generatable>
     {

@@ -9,7 +9,7 @@
      new(...args: any[]): T;
  };
  
- export namespace Creator
+ export module Creator
  {
      export type Getter<T extends object> = () => Creator<T>;
  }

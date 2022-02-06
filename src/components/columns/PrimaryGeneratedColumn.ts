@@ -32,7 +32,7 @@ export function PrimaryGeneratedColumn<Type extends ColumnType.Generatable>
             : () => DEFAULT as any),
     });
 }
-export namespace PrimaryGeneratedColumn
+export module PrimaryGeneratedColumn
 {
     export type IOptions<Type extends ColumnType.Generatable> 
         = Partial<Omit<IColumn<Type, false>, "component"|"primary"|"unique"|"index"|"default">>;

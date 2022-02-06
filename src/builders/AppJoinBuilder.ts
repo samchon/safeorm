@@ -19,7 +19,7 @@ import { SpecialFields } from "../typings/SpecialFields";
  * IDE directly. Besides, when you're finding neighbor entities to join, 
  * `AppJoinBuilder` will hint you through the auto-completion.
  * 
- * ![Hints by the Auto Completion](https://raw.githubusercontent.com/samchon/safe-typeorm/master/assets/demonstrations/app-join-builder.gif)
+ * [Hints by the Auto Completion](https://raw.githubusercontent.com/samchon/safe-typeorm/master/assets/demonstrations/app-join-builder.gif)
  * 
  * Furthermore, interface of the `AppJoinBuilder` is exactly same with the 
  * {@link JoinQueryBuilder}, another helper class who can implement DB join very 
@@ -284,7 +284,7 @@ export class AppJoinBuilder<Mine extends object>
     }
 }
 
-export namespace AppJoinBuilder
+export module AppJoinBuilder
 {
     /**
      * Closure function type for the {@link AppJoinBuilder.join}.

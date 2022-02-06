@@ -1,12 +1,13 @@
 {
   "name": "safeorm",
-  "version": "0.0.0-dev.20220205",
+  "version": "0.0.0-dev.20220206",
   "description": "Ultimate Safe ORM for the TypeScript",
   "main": "lib/index.js",
   "scripts": {
     "test": "node lib/test",
     "build": "rimraf lib && tsc",
-    "dev": "rimraf lib && tsc --watch"
+    "dev": "rimraf lib && tsc --watch",
+    "package:next": "npm run build && npm run test && npm publish --tag next"
   },
   "repository": {
     "type": "git",

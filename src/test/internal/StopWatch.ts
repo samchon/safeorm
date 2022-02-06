@@ -1,4 +1,4 @@
-export namespace StopWatch
+export module StopWatch
 {
     export type Task = () => Promise<void>;
 

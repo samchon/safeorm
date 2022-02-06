@@ -28,7 +28,7 @@ export function PrimaryColumn<Type extends ColumnType>
         nullable: false,
     });
 }
-export namespace PrimaryColumn
+export module PrimaryColumn
 {
     export type IOptions<Type extends ColumnType> 
         = OmitNever<Omit<Column.IOptions<Type, false>, "component"|"nullable"|"primary"|"unique"|"index">>;

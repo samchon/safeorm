@@ -7,3 +7,4 @@ src/
 *.js.map
 *.*ignore
 *.log
+**.json

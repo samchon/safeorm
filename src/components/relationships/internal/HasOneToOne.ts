@@ -26,7 +26,7 @@ export function HasOneToOne<
     return {} as any;
 }
 
-export namespace HasOneToOne
+export module HasOneToOne
 {
     export interface IOptions<Nullable extends true|false>
     {

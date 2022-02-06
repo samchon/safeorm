@@ -75,7 +75,7 @@ export class JsonSelectBuilder<
     }
 }
 
-export namespace JsonSelectBuilder
+export module JsonSelectBuilder
 {
     /**
      * 
@@ -149,7 +149,7 @@ export namespace JsonSelectBuilder
                     : never
             : never;
     }>;
-    export namespace Output
+    export module Output
     {
         /**
          * 

@@ -36,7 +36,7 @@ export function DeleteDateColumn<
     };
 }
 
-export namespace DeleteDateColumn
+export module DeleteDateColumn
 {
     export type IOptions<Type extends ColumnType.DateType>
         = OmitNever<Omit<Column.IOptions<Type, true>, "default">>;

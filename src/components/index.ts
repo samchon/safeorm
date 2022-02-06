@@ -1,5 +1,5 @@
-export * from "./columns";
-export * from "./relationships";
+export * from "./columns/index";
+export * from "./relationships/index";
 
 export * from "./indexes/Index";
 export * from "./indexes/Unique";

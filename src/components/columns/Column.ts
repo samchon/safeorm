@@ -21,7 +21,7 @@ export function Column<
     } as any;
 }
 
-export namespace Column
+export module Column
 {
     export type IOptions<
             Type extends ColumnType,

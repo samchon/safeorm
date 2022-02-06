@@ -1,5 +1,4 @@
 import { Creator } from "../../../typings/Creator";
-import { Entity } from "../../Entity";
 import { Belongs } from "../Belongs";
 
 export interface HasOneToMany<Target extends object>
@@ -22,6 +21,6 @@ export function HasOneToMany<Target extends object>
     return {} as any;
 }
 
-export namespace HasOneToMany
+export module HasOneToMany
 {
 }

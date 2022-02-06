@@ -6,7 +6,7 @@ export interface IPrimaryColumn<Type extends ColumnType>
         IPrimaryColumn.IBase<Type>
 {
 }
-export namespace IPrimaryColumn
+export module IPrimaryColumn
 {
     export interface IBase<Type extends ColumnType>
     {
